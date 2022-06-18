@@ -21,7 +21,8 @@ const Login = () => {
         <Input labelName="Password" />
 
         <br></br>
-        <Buttons color="primary"></Buttons>
+        <Buttons color="primary" name="Login"></Buttons>
+        <Buttons name="Register"></Buttons>
       </form>
     </>
   )

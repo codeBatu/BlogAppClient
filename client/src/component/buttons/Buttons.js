@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button'
 const Buttons = (props) => {
   return (
     <Button variant="contained" color={props.color}>
-      Login
+      {props.name}
     </Button>
   )
 }
