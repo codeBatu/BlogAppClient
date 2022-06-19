@@ -22,7 +22,6 @@ const Login = () => {
 
         <br></br>
         <Buttons color="primary" name="Login"></Buttons>
-        <Buttons name="Register"></Buttons>
       </form>
     </>
   )

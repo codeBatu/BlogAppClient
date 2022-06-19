@@ -1,27 +1,32 @@
-import * as React from 'react'
+import { AppBar, Box, Button, Toolbar, Typography } from '@material-ui/core'
+import { Routes, Route, BrowserRouter } from 'react-router-dom'
+import Login from '../LoginPage/Login'
+import Register from '../RegisterPage/Register'
 
-import {
-  Container,
-  Typography,
-  Toolbar,
-  AppBar,
-  Box,
-  IconButton,
-  Menu,
-  Button,
-} from '@material-ui/core'
-
-const NavBar = () => {
+export default function NavBar() {
   return (
-    <AppBar position="static" variant="outlined">
-      <Toolbar>
-        <Typography>HELLO</Typography>
-        <Button style={{ marginLeft: 'auto' }} color="inherit">
-          Register
-        </Button>
-        <Button color="inherit">Login</Button>
-      </Toolbar>
-    </AppBar>
+    <Box style={{ textAlign: 'center' }}>
+      <BrowserRouter>
+        <AppBar position="static" variant="outlined">
+          <Toolbar>
+            <Typography>Blogs</Typography>
+            <Button
+              style={{ marginLeft: 'auto' }}
+              color="inherit"
+              href="/register"
+            >
+              Register
+            </Button>
+            <Button color="inherit" href="/login">
+              Login
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </BrowserRouter>
+    </Box>
   )
 }
-export default NavBar
