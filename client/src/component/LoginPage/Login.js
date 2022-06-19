@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Input from '../Inputs/Input'
 import Buttons from '../buttons/Buttons'
 import { makeStyles } from '@material-ui/core/styles'
+import { useNavigate } from 'react-router-dom'
+import AuthService from '../../services/auth.service'
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
@@ -12,13 +14,36 @@ const useStyles = makeStyles((theme) => ({
 }))
 const Login = () => {
   const classes = useStyles()
+  const [email, setEmalil] = useState('')
+  const navigate = useNavigate()
+  const [password, setPassword] = useState('')
+  async function handleSubmit() {
+    try {
+      await AuthService.login(email, password).then(
+        () => {
+          navigate('/register')
+          window.location.reload()
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+    } catch (err) {
+      console.log(err)
+    }
+  }
   return (
     <>
       <h3>SmartPulse Login</h3>
-      <form className={classes.root} noValidate autoComplete="off">
-        <Input labelName="Username" />
+      <form
+        onSubmit={handleSubmit}
+        className={classes.root}
+        noValidate
+        autoComplete="off"
+      >
+        <Input labelName="Email" set={(e) => setEmalil(e.target.value)} />
         <br></br>
-        <Input labelName="Password" />
+        <Input labelName="Password" set={(e) => setPassword(e.target.value)} />
 
         <br></br>
         <Buttons color="primary" name="Login"></Buttons>

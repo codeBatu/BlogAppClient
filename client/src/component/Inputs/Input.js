@@ -4,7 +4,12 @@ import TextField from '@material-ui/core/TextField'
 
 const Input = (props) => {
   return (
-    <TextField id="outlined-basic" label={props.labelName} variant="outlined" />
+    <TextField
+      id="outlined-basic"
+      onChange={props.set}
+      label={props.labelName}
+      variant="outlined"
+    />
   )
 }
 
