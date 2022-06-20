@@ -4,6 +4,7 @@ import Buttons from '../buttons/Buttons'
 import { makeStyles } from '@material-ui/core/styles'
 import { useNavigate } from 'react-router-dom'
 import AuthService from '../../services/auth.service'
+import { Button } from '@material-ui/core'
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
@@ -20,9 +21,10 @@ const Login = () => {
   async function handleSubmit() {
     try {
       await AuthService.login(email, password).then(
-        (response) => {
-          console.log(response)
-          navigate('/')
+        () => {
+          console.log('first')
+
+          navigate('/dashboard')
         },
         (error) => {
           console.log(error)
@@ -46,7 +48,9 @@ const Login = () => {
         <Input labelName="Password" set={(e) => setPassword(e.target.value)} />
 
         <br></br>
-        <Buttons color="primary" name="Login"></Buttons>
+        <Button color="primary" type="submit">
+          Login
+        </Button>
       </form>
     </>
   )

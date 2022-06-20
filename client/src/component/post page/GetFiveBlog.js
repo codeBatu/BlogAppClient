@@ -1,22 +1,28 @@
+import React, { useState } from 'react'
 import {
   Box,
+  Button,
   Card,
+  CardActions,
   CardContent,
   CardMedia,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Grid,
-  Hidden,
+  TextField,
   Typography,
 } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
 import PostService from '../../services/post.service'
-
-const Post = () => {
+const GetFiveBlog = () => {
   const [posts, setPosts] = useState([])
 
-  PostService.getAllPrivatePosts().then(
+  PostService.getlastFivePost().then(
     (response) => {
-      console.log(response)
+      console.log('first')
       setPosts(response.data)
     },
     (error) => {
@@ -72,4 +78,4 @@ const Post = () => {
   )
 }
 
-export default Post
+export default GetFiveBlog

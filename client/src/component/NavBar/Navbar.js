@@ -6,7 +6,8 @@ import HomePage from '../Page/HomePage'
 import { useEffect, useState } from 'react'
 import AuthService from '../../services/auth.service'
 import DashPage from '../DashBoard/DashPage'
-
+import Home from '../Page/Home'
+import GetFiveBlog from '../post page/GetFiveBlog'
 export default function NavBar() {
   const [currentUser, setCurrentUser] = useState(undefined)
 
@@ -29,17 +30,15 @@ export default function NavBar() {
             <Toolbar>
               {currentUser ? (
                 <>
-                  <Button color="inherit" href="/">
-                    Blogs
+                  <Button color="inherit" href="/homepage">
+                    Blog
                   </Button>
+
                   <Button
+                    style={{ marginLeft: 'auto' }}
                     color="inherit"
                     href="/dashboard"
-                    style={{ marginLeft: 'auto' }}
                   >
-                    Add Post
-                  </Button>
-                  <Button color="inherit" href="/dashboard">
                     Dashboard
                   </Button>
                   <Button color="inherit" href="/login" onClick={logOut}>
@@ -49,7 +48,7 @@ export default function NavBar() {
               ) : (
                 <>
                   <Button color="inherit" href="/">
-                    Blogs
+                    Blog
                   </Button>
                   <Button
                     style={{ marginLeft: 'auto' }}
@@ -66,7 +65,8 @@ export default function NavBar() {
             </Toolbar>
           </AppBar>
           <Routes>
-            <Route exac path="/" element={<HomePage />} />
+            <Route exac path="/" element={<GetFiveBlog />} />
+            <Route path="/homepage" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<DashPage />} />
             <Route path="/register" element={<Register />} />

@@ -25,8 +25,21 @@ const activeBlog = async () => {
 const inActiveBlog = async () => {
   return await axios.post(API_URL + '/blog//blog/inactiveBlog')
 }
-const updatePostBlog = async (id) => {
-  return await axios.post(API_URL + '/blog/UpdateBlog?id=' + id, {
+const updatePostBlog = async (id, title, description) => {
+  console.log(API_URL + '/blog/UpdateeBlog?id=' + id)
+  return await axios.put(
+    API_URL + '/blog/UpdateeBlog?id=' + id,
+    {
+      title,
+      description,
+    },
+    {
+      headers: authHeader(),
+    }
+  )
+}
+const getBlogById = async (id) => {
+  return await axios.post(API_URL + '/blog/GetById?id=' + id, {
     headers: authHeader(),
   })
 }
@@ -44,6 +57,7 @@ const getAllPrivatePosts = async () => {
 const postService = {
   getlastFivePost,
   inActiveBlog,
+  getBlogById,
   activeBlog,
   updatePostBlog,
   removePostBlog,

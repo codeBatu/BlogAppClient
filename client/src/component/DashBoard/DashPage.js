@@ -16,12 +16,16 @@ import {
   TextField,
   DialogActions,
   makeStyles,
+  Switch,
 } from '@material-ui/core'
 
 import PostService from '../../services/post.service'
 
 async function removeBlog(id) {
   await PostService.removePostBlog(id)
+}
+const handleUpdateBlog = async (id, title, description) => {
+  await PostService.updatePostBlog(id, title, description)
 }
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -31,11 +35,55 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
 }))
-const DashPage = () => {
-  const classes = useStyles()
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
 
+const DashPage = () => {
+  const [title, setTitle] = useState('')
+
+  const [updateTitle, setUpdateTitle] = useState('')
+  const [updateDescription, setUpdateDescription] = useState('')
+  const [description, setDescription] = useState('')
+  function updateBlog(id, title, description) {
+    return (
+      <>
+        <Dialog open={true}>
+          <DialogTitle>Update Blog</DialogTitle>
+          <DialogContent>
+            <DialogContentText>Update Blog</DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="title"
+              label="Title"
+              type="text"
+              fullWidth
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <TextField
+              margin="dense"
+              id="description"
+              label="Description"
+              type="text"
+              fullWidth
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => handleUpdateBlog(id, title, description)}
+              color="primary"
+            >
+              Update
+            </Button>
+            <Button onClick={() => setOpen(false)} color="primary">
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </>
+    )
+  }
   const handleSignup = async (e) => {
     e.preventDefault()
 
@@ -51,6 +99,7 @@ const DashPage = () => {
       console.log(error)
     }
   )
+
   const [open, setOpen] = useState(false)
 
   const handleClickOpen = () => {
@@ -145,17 +194,68 @@ const DashPage = () => {
                 </TableCell>
 
                 <TableCell align="center">
-                  {' '}
-                  <Button>Düzenle</Button>
+                  <Button
+                    color="primary"
+                    onClick={handleClickOpen}
+                    type="submit"
+                  >
+                    Düzenle{post.id}
+                  </Button>
+                  <Dialog
+                    open={open}
+                    onClose={() => {
+                      handleClose()
+                    }}
+                  >
+                    <DialogTitle>Yeni Yazi</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>Formu Doldurunuz</DialogContentText>
+                      <div>
+                        <form>
+                          <TextField
+                            type="text"
+                            placeholder="Title"
+                            value={updateTitle}
+                            onChange={(e) => setUpdateTitle(e.target.value)}
+                          />
+                          <TextField
+                            type="text"
+                            multiline="true"
+                            placeholder="Content"
+                            value={updateDescription}
+                            onChange={(e) =>
+                              setUpdateDescription(e.target.value)
+                            }
+                          />
+                          <DialogActions>
+                            {' '}
+                            <Switch>Aktif</Switch>{' '}
+                            <Button
+                              color="inherit"
+                              type="submit"
+                              onClick={() =>
+                                updateBlog(
+                                  post.id,
+                                  updateTitle,
+                                  updateDescription
+                                )
+                              }
+                            >
+                              Yayinla
+                            </Button>
+                          </DialogActions>
+                        </form>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                   <Button
                     color="secondary"
                     onClick={() => {
                       removeBlog(post.id)
                     }}
                   >
-                    Sil {post.id}
+                    Sil
                   </Button>
-                  <Button color="primary">Details</Button>
                 </TableCell>
               </TableRow>
             ))}

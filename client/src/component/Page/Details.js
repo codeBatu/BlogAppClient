@@ -1,20 +1,27 @@
 import {
   Box,
+  Button,
   Card,
+  CardActions,
   CardContent,
   CardMedia,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Grid,
-  Hidden,
+  TextField,
   Typography,
 } from '@material-ui/core'
+import { computeHeadingLevel } from '@testing-library/react'
 import React, { useEffect, useState } from 'react'
 import PostService from '../../services/post.service'
 
-const Post = () => {
+const BlogPage = (id) => {
   const [posts, setPosts] = useState([])
-
-  PostService.getAllPrivatePosts().then(
+  PostService.getBlogById(id).then(
     (response) => {
       console.log(response)
       setPosts(response.data)
@@ -23,6 +30,7 @@ const Post = () => {
       console.log(error)
     }
   )
+
   return (
     <main>
       {/* Hero unit */}
@@ -72,4 +80,4 @@ const Post = () => {
   )
 }
 
-export default Post
+export default BlogPage
