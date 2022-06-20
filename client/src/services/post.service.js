@@ -3,19 +3,16 @@ import authHeader from './auth-header'
 
 const API_URL = 'https://localhost:5001'
 
-const getAllPublicPosts = async () => {
+const getlastFivePost = async () => {
   return await axios.get(API_URL + '/blog/GetLastFiveBlog')
 }
-const getAllPublicPost = async () => {
-  return await axios.get(API_URL + '/blog/GetLastFiveBlog')
-}
-const createPostBlog = async (title, description, data) => {
+
+const createPostBlog = async (title, description) => {
   return await axios.post(
     API_URL + '/blog/CreateBlog',
     {
       title,
       description,
-      data,
     },
     {
       headers: authHeader(),
@@ -34,23 +31,24 @@ const updatePostBlog = async (id) => {
   })
 }
 const removePostBlog = async (id) => {
-  return await axios.post(API_URL + '/blog/RemoveBlog?id=' + id, {
+  return await axios.delete(API_URL + '/blog/RemoveBlog?id=' + id, {
     headers: authHeader(),
   })
 }
+
 const getAllPrivatePosts = async () => {
-  return await axios.get(API_URL + '/blog/GetAll', {
+  return await axios.get(API_URL + '/blog/GetAllBlog', {
     headers: authHeader(),
   })
 }
 const postService = {
+  getlastFivePost,
   inActiveBlog,
   activeBlog,
   updatePostBlog,
   removePostBlog,
   createPostBlog,
-  getAllPublicPosts,
-  getAllPublicPost,
+
   getAllPrivatePosts,
 }
 

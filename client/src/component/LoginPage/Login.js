@@ -20,9 +20,9 @@ const Login = () => {
   async function handleSubmit() {
     try {
       await AuthService.login(email, password).then(
-        () => {
-          navigate('/register')
-          window.location.reload()
+        (response) => {
+          console.log(response)
+          navigate('/')
         },
         (error) => {
           console.log(error)
