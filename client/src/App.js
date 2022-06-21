@@ -6,16 +6,6 @@ import Register from './component/RegisterPage/Register'
 import AuthService from './services/auth.service'
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(undefined)
-
-  useEffect(() => {
-    const user = AuthService.getCurrentUser()
-
-    if (user) {
-      setCurrentUser(user)
-    }
-  }, [])
-
   return (
     <>
       <Navbar />

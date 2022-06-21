@@ -27,6 +27,9 @@ async function removeBlog(id) {
 const handleUpdateBlog = async (id, title, description) => {
   await PostService.updatePostBlog(id, title, description)
 }
+const handleCreateBlog = async (title, description) => {
+  await PostService.createPostBlog(title, description)
+}
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
@@ -42,65 +45,34 @@ const DashPage = () => {
   const [updateTitle, setUpdateTitle] = useState('')
   const [updateDescription, setUpdateDescription] = useState('')
   const [description, setDescription] = useState('')
-  function updateBlog(id, title, description) {
-    return (
-      <>
-        <Dialog open={true}>
-          <DialogTitle>Update Blog</DialogTitle>
-          <DialogContent>
-            <DialogContentText>Update Blog</DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="title"
-              label="Title"
-              type="text"
-              fullWidth
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <TextField
-              margin="dense"
-              id="description"
-              label="Description"
-              type="text"
-              fullWidth
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button
-              onClick={() => handleUpdateBlog(id, title, description)}
-              color="primary"
-            >
-              Update
-            </Button>
-            <Button onClick={() => setOpen(false)} color="primary">
-              Cancel
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </>
-    )
-  }
+
   const handleSignup = async (e) => {
     e.preventDefault()
 
     await PostService.createPostBlog(title, description, true)
   }
   const [posts, setPosts] = useState([])
-
-  PostService.getAllPrivatePosts().then(
-    (response) => {
-      setPosts(response.data)
-    },
-    (error) => {
-      console.log(error)
-    }
-  )
+  useEffect(() => {
+    PostService.getAllPrivatePosts().then(
+      (response) => {
+        setPosts(response.data)
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }, [])
 
   const [open, setOpen] = useState(false)
+  const [openAddPost, setOpenAddPost] = useState(false)
+
+  const handleClickOpenAddPost = () => {
+    setOpenAddPost(true)
+  }
+
+  const handleCloseAddPost = () => {
+    setOpenAddPost(false)
+  }
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -118,18 +90,23 @@ const DashPage = () => {
         style={{
           backgroundColor: 'lightgray',
 
-          marginLeft: '1900px',
+          marginLeft: '1600px',
         }}
-        onClick={handleClickOpen}
+        onClick={handleClickOpenAddPost}
       >
-        Add Post
-      </Button>{' '}
-      <Dialog open={open} onClose={handleClose}>
+        ADD POST
+      </Button>
+      <Dialog
+        open={openAddPost}
+        onClose={() => {
+          handleCloseAddPost()
+        }}
+      >
         <DialogTitle>Yeni Yazi</DialogTitle>
         <DialogContent>
           <DialogContentText>Formu Doldurunuz</DialogContentText>
           <div>
-            <form onSubmit={handleSignup}>
+            <form>
               <TextField
                 type="text"
                 placeholder="Title"
@@ -144,8 +121,17 @@ const DashPage = () => {
                 onChange={(e) => setDescription(e.target.value)}
               />
               <DialogActions>
-                <Button color="inherit" type="submit">
-                  Yayınla
+                <Switch>Aktif</Switch>{' '}
+                <Button
+                  color="inherit"
+                  onClick={() => {
+                    handleCreateBlog(title, description)
+                  }}
+                >
+                  Yayinla
+                </Button>
+                <Button color="inherit" onClick={handleCloseAddPost}>
+                  Kapat
                 </Button>
               </DialogActions>
             </form>
@@ -194,12 +180,8 @@ const DashPage = () => {
                 </TableCell>
 
                 <TableCell align="center">
-                  <Button
-                    color="primary"
-                    onClick={handleClickOpen}
-                    type="submit"
-                  >
-                    Düzenle{post.id}
+                  <Button color="primary" onClick={handleClickOpen}>
+                    Düzenle
                   </Button>
                   <Dialog
                     open={open}
@@ -233,13 +215,14 @@ const DashPage = () => {
                             <Button
                               color="inherit"
                               type="submit"
-                              onClick={() =>
-                                updateBlog(
+                              onClick={() => {
+                                alert(post.id)
+                                handleUpdateBlog(
                                   post.id,
                                   updateTitle,
                                   updateDescription
                                 )
-                              }
+                              }}
                             >
                               Yayinla
                             </Button>

@@ -13,16 +13,18 @@ import PostService from '../../services/post.service'
 
 const Post = () => {
   const [posts, setPosts] = useState([])
+  useEffect(() => {
+    PostService.getlastFivePost().then(
+      (response) => {
+        console.log('first')
+        setPosts(response.data)
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }, [])
 
-  PostService.getAllPrivatePosts().then(
-    (response) => {
-      console.log(response)
-      setPosts(response.data)
-    },
-    (error) => {
-      console.log(error)
-    }
-  )
   return (
     <main>
       {/* Hero unit */}

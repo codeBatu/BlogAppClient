@@ -26,7 +26,6 @@ const inActiveBlog = async () => {
   return await axios.post(API_URL + '/blog//blog/inactiveBlog')
 }
 const updatePostBlog = async (id, title, description) => {
-  console.log(API_URL + '/blog/UpdateeBlog?id=' + id)
   return await axios.put(
     API_URL + '/blog/UpdateeBlog?id=' + id,
     {

@@ -8,6 +8,8 @@ import AuthService from '../../services/auth.service'
 import DashPage from '../DashBoard/DashPage'
 import Home from '../Page/Home'
 import GetFiveBlog from '../post page/GetFiveBlog'
+import DropDownButton from '../buttons/DropDownButton'
+import Profile from '../DashBoard/Profile'
 export default function NavBar() {
   const [currentUser, setCurrentUser] = useState(undefined)
 
@@ -33,14 +35,9 @@ export default function NavBar() {
                   <Button color="inherit" href="/homepage">
                     Blog
                   </Button>
+                  <Typography style={{ marginLeft: 'auto' }}></Typography>
+                  <DropDownButton />
 
-                  <Button
-                    style={{ marginLeft: 'auto' }}
-                    color="inherit"
-                    href="/dashboard"
-                  >
-                    Dashboard
-                  </Button>
                   <Button color="inherit" href="/login" onClick={logOut}>
                     Logout
                   </Button>
@@ -70,6 +67,7 @@ export default function NavBar() {
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<DashPage />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </BrowserRouter>
       </Box>

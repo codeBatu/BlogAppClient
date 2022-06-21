@@ -31,16 +31,17 @@ const BlogPage = () => {
   }
 
   const [posts, setPosts] = useState([])
-
-  PostService.getAllPrivatePosts().then(
-    (response) => {
-      console.log(response)
-      setPosts(response.data)
-    },
-    (error) => {
-      console.log(error)
-    }
-  )
+  useEffect(() => {
+    PostService.getAllPrivatePosts().then(
+      (response) => {
+        console.log(response)
+        setPosts(response.data)
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }, [])
 
   return (
     <main>
